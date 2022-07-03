@@ -1,7 +1,18 @@
 let database = require("../database");
 
-const findReminder = (reminderId) =>
-  database.cindy.reminders.find(reminder => reminder.id == reminderId);
+/**
+ * Looks up a reminder in the given database reminders array using the given reminder ID
+ * @param {[]} database 
+ * @param {number} id 
+ * @returns Object containing the reminder item and index if found, or null and -1 respectively
+ */
+const findReminder = (database, id) => {
+  const index = database.reminders.findIndex(reminder => reminder.id == id);
+  return {
+    reminderItem: (index > -1) ? database.reminders[index] : null,
+    index
+  };
+};
 
 let remindersController = {
   list: (req, res) => {
@@ -13,9 +24,9 @@ let remindersController = {
   },
 
   listOne: (req, res) => {
-    const searchResult = findReminder(req.params.id);
-    if (searchResult != undefined) {
-      res.render("reminder/single-reminder", { reminderItem: searchResult });
+    const { reminderItem } = findReminder(database.cindy, req.params.id);
+    if (reminderItem) {
+      res.render("reminder/single-reminder", { reminderItem });
     } else {
       res.render("reminder/index", { reminders: database.cindy.reminders });
     }
@@ -33,18 +44,25 @@ let remindersController = {
   },
 
   edit: (req, res) => {
-    const searchResult = findReminder(req.params.id);
-    res.render("reminder/edit", { reminderItem: searchResult });
+    const { reminderItem } = findReminder(database.cindy, req.params.id);
+    res.render("reminder/edit", { reminderItem });
   },
 
   update: (req, res) => {
-    // implement this code
+    const { reminderItem, index } = findReminder(database.cindy, req.params.id);
+    if (reminderItem) {
+      reminderItem.title = req.body.title;
+      reminderItem.description = req.body.description;
+      reminderItem.completed = req.body.completed.toLowerCase() === 'true' ? true : false;
+      database.cindy.reminders[index] = reminderItem;
+      res.redirect('/reminders');
+    }
   },
 
   delete: (req, res) => {
-    const searchResult = findReminder(req.params.id);
-    if (searchResult) {
-      database.cindy.reminders.splice(database.cindy.reminders.indexOf(searchResult));
+    const { index } = findReminder(database.cindy, req.params.id);
+    if (index > -1) {
+      database.cindy.reminders.splice(index);
       res.redirect("/reminders");
     }
   },
