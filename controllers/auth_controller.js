@@ -2,7 +2,7 @@ let database = require("../database");
 
 let authController = {
   login: (req, res) => {
-    res.render("auth/login");
+    res.render("auth/login", { isLogin: true });
   },
 
   logout: (req, res) => {
