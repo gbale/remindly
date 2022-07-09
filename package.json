@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "ts-node-dev --respawn --transpile-only index.ts"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,14 @@
     "express-session": "^1.17.3",
     "method-override": "^2.3.7",
     "mongoose": "^4.7.7",
-    "nodemon": "^1.11.0",
+    "nodemon": "^2.0.19",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
   }
 }
