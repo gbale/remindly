@@ -51,6 +51,7 @@ app.post('/reminder/delete/:id', ensureAuthenticated, reminderController.delete)
 // Fix this to work with passport! The registration does not need to work, you can use the fake database for this.
 app.get('/register', forwardAuthenticated, authController.register);
 app.get('/login', forwardAuthenticated, authController.login);
+app.get('/logout', authController.logout);
 app.post('/register', authController.registerSubmit);
 //app.post('/login', authController.loginSubmit);
 app.post(

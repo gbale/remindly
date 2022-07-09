@@ -5,6 +5,11 @@ let authController = {
     res.render("auth/login");
   },
 
+  logout: (req, res) => {
+    req.logout();
+    res.redirect("/");
+  },
+
   register: (req, res) => {
     res.render("auth/register");
   },
