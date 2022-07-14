@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const express = require('express');
+import express from 'express';
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const path = require('path');
@@ -40,7 +40,7 @@ app.use(passport.session());
 
 const { ensureAuthenticated, forwardAuthenticated } = require('./middleware/checkAuth');
 const reminderController = require('./controllers/reminder_controller');
-const authController = require('./controllers/auth_controller');
+import authController from './controllers/auth_controller';
 
 app.get('/reminders', ensureAuthenticated, reminderController.list);
 app.get('/reminder/new', ensureAuthenticated, reminderController.new);
@@ -55,17 +55,8 @@ app.get('/register', forwardAuthenticated, authController.register);
 app.get('/login', forwardAuthenticated, authController.login);
 app.get('/logout', authController.logout);
 app.post('/register', authController.registerSubmit);
-//app.post('/login', authController.loginSubmit);
-app.post(
-  '/login',
-  passport.authenticate('local', {
-    successRedirect: '/reminders',
-    failureRedirect: '/login',
-  })
-);
+app.post('/login', authController.loginSubmit);
 
 app.listen(3001, function () {
-  console.log(
-    'Server running. Visit: localhost:3001/reminders in your browser 🚀'
-  );
+  console.log('Server running. Visit: http://localhost:3001/reminders in your browser 🚀');
 });

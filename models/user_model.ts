@@ -14,8 +14,8 @@ export interface User {
   password: string;
 }
 
-export const model = {
-  findOne: (email: string): User => {
+export const userModel = {
+  findByEmail: (email: string): User => {
     const user = database.find((user) => user.email === email);
     if (user) {
       return user;
