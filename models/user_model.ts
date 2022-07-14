@@ -1,21 +1,28 @@
-const database = [
+const database: [User] = [
   {
     id: 1,
-    name: "Cindy Smith",
-    email: "c@c.c",
-    password: "c",
+    name: 'Cindy Smith',
+    email: 'c@c.c',
+    password: 'c',
   },
 ];
 
-const userModel = {
-  findOne: (email) => {
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+}
+
+export const model = {
+  findOne: (email: string): User => {
     const user = database.find((user) => user.email === email);
     if (user) {
       return user;
     }
     throw new Error(`Couldn't find user with email: ${email}`);
   },
-  findById: (id) => {
+  findById: (id: number): User => {
     const user = database.find((user) => user.id === id);
     if (user) {
       return user;
@@ -23,5 +30,3 @@ const userModel = {
     throw new Error(`Couldn't find user with id: ${id}`);
   },
 };
-
-module.exports = { database, userModel };
