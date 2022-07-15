@@ -15,6 +15,9 @@ export interface User {
 }
 
 export const userModel = {
+  add: (id: string, name: string): User => {
+    return database[database.push({ id, name }) - 1];
+  },
   findByEmail: (email: string): User => {
     const user = database.find((user) => user.email === email);
     if (user) {
@@ -29,8 +32,4 @@ export const userModel = {
     }
     throw new Error(`Couldn't find user with id: ${id}`);
   },
-  add: (id: string, name: string): User => {
-    return database[database.push({ id, name }) - 1];
-  },
 };
- 

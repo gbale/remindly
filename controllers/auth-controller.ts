@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import passport from '../middleware/passport';
 
 const options: passport.AuthenticateOptions = {
@@ -24,12 +24,12 @@ export const authController = {
     res.render('auth/register');
   },
 
-  loginLocal: (req: Request, res: Response) => {
-    passport.authenticate('local', options)(req, res);
+  loginLocal: (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate('local', options)(req, res, next);
   },
 
-  loginGithub: (req: Request, res: Response) => {
-    passport.authenticate('github', options)(req, res);
+  loginGithub: (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate('github', options)(req, res, next);
   },
 
   registerSubmit: (req: Request, res: Response) => {

@@ -3,19 +3,19 @@
 
     <ul class="list-group">
       <li class="list-group-item">
-        <h3><strong><%= reminderItem.title %>: </strong></h3>
+        <h3><strong><%= reminderItem.title %></strong></h3>
         <h4><%= reminderItem.description %></h4>
         <h4>Completed:
-          <% if (reminderItem.completed == true) { %>
+          <% if (reminderItem.isCompleted == true) { %>
             <span class="label label-success">True</span>
-          <% } else if (reminderItem.completed == false) { %>
+          <% } else if (reminderItem.isCompleted == false) { %>
             <span class="label label-danger">False</span>
           <% } %>
         </h4>
 
-        <a class="btn btn-warning" href=<%= "/reminder/" + reminderItem.id + "/edit" %>>Edit</a>
+        <a class="btn btn-warning" href=<%= "/reminder/" + index + "/edit" %>>Edit</a>
 
-        <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + reminderItem.id %>>
+        <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + index %>>
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
 

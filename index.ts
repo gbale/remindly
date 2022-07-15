@@ -3,7 +3,7 @@ require('dotenv').config();
 import express from 'express';
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
-const path = require('path');
+import path from 'path';
 import passport from './middleware/passport';
 const app = express();
 
@@ -34,8 +34,8 @@ app.use((req, res, next) => {
 });
 */
 
-const { ensureAuthenticated, forwardAuthenticated } = require('./middleware/checkAuth');
-const reminderController = require('./controllers/reminder-controller');
+import { ensureAuthenticated, forwardAuthenticated } from './middleware/checkAuth';
+import reminderController from './controllers/reminder-controller';
 import authController from './controllers/auth-controller';
 
 app.get('/dashboard', ensureAuthenticated, reminderController.dashboard);

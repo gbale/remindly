@@ -2,19 +2,22 @@
   <h1 class="page-header">Reminders</h1>
 
 <ul class="list-group">
-  <% reminders.forEach(function (reminderItem) { %>
+  <% reminders.forEach(function (reminderItem, index) { %>
     <li class="list-group-item">
       <strong><%= reminderItem.title %>: </strong>
       <%= reminderItem.description %>
       || Completed:
-      <% if (reminderItem.completed == true) { %>
+      <% if (reminderItem.isCompleted == true) { %>
         <span class="badge badge-success">True</span>
-      <% } else if (reminderItem.completed == false) { %>
+      <% } else if (reminderItem.isCompleted == false) { %>
         <span class="badge badge-danger">False</span>
       <% } %>
-      <a class="pull-right" href=<%= "/reminder/" + reminderItem.id %>>View</a>
+      <a class="pull-right" href=<%= "/reminder/" + index %>>View</a>
     </li>
   <% }) %>
+  <% if (reminders.length === 0) { %>
+    <p>You have no reminders, why not <a href="/reminder/new/">create one</a>?</p>
+  <% } %>
 </ul>
 
 </div>
