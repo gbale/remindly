@@ -1,4 +1,4 @@
-import { User, userModel } from '../models/user_model';
+import { User, userModel } from '../models/user-model';
 
 const isUserValid = (user: User, password: string) => user.password === password;
 

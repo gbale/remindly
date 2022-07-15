@@ -1,7 +1,7 @@
 import passport from 'passport';
 import passportGitHub from 'passport-github';
 import passportLocal from 'passport-local';
-import * as userController from '../controllers/user_controller';
+import * as userController from '../controllers/user-controller';
 
 passport.serializeUser((user, done) => {
   done(null, user);

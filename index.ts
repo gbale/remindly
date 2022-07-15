@@ -35,8 +35,8 @@ app.use((req, res, next) => {
 */
 
 const { ensureAuthenticated, forwardAuthenticated } = require('./middleware/checkAuth');
-const reminderController = require('./controllers/reminder_controller');
-import authController from './controllers/auth_controller';
+const reminderController = require('./controllers/reminder-controller');
+import authController from './controllers/auth-controller';
 
 app.get('/dashboard', ensureAuthenticated, reminderController.dashboard);
 app.get('/reminders', ensureAuthenticated, reminderController.list);
