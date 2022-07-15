@@ -1,5 +1,5 @@
 import { reminderModel } from '../models/reminder-model';
-import { User, userModel } from '../models/user-model';
+import { Role, User, userModel } from '../models/user-model';
 
 const isUserValid = (user: User, password: string) => user.password === password;
 
@@ -9,7 +9,12 @@ export const getUserByGitHubIdOrCreate = (id: string, name: string) => {
   } catch (err: any) {
     console.log('Creating user: ' + id);
     reminderModel.init(id);
-    return userModel.add(id, name);
+    const user: User = {
+      id,
+      role: Role.User,
+      name,
+    };
+    return userModel.add(user);
   }
 };
 

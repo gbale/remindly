@@ -1,22 +1,29 @@
+export enum Role {
+  User = 1,
+  Admin,
+}
+
+export interface User {
+  id: string;
+  role: Role;
+  name: string;
+  email?: string;
+  password?: string;
+}
+
 const database: [User] = [
   {
     id: '1',
+    role: Role.Admin,
     name: 'Cindy Smith',
     email: 'c@c.c',
     password: 'c',
   },
 ];
 
-export interface User {
-  id: string;
-  name: string;
-  email?: string;
-  password?: string;
-}
-
 export const userModel = {
-  add: (id: string, name: string): User => {
-    return database[database.push({ id, name }) - 1];
+  add: (user: User): User => {
+    return database[database.push(user) - 1];
   },
   findByEmail: (email: string): User => {
     const user = database.find((user) => user.email === email);

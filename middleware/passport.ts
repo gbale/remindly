@@ -2,9 +2,10 @@ import passport from 'passport';
 import passportGitHub from 'passport-github';
 import passportLocal from 'passport-local';
 import * as userController from '../controllers/user-controller';
+import { User } from '../models/user-model';
 
 passport.serializeUser((user, done) => {
-  done(null, (user as any).id);
+  done(null, (user as User).id);
 });
 
 passport.deserializeUser((id: string, done) => {

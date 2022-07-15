@@ -1,10 +1,14 @@
 require('dotenv').config();
 
-import express from 'express';
-const expressLayouts = require('express-ejs-layouts');
-const session = require('express-session');
+import express, { NextFunction, Request, Response } from 'express';
+import expressLayouts from 'express-ejs-layouts';
+import session from 'express-session';
 import path from 'path';
+import authController from './controllers/auth-controller';
+import reminderController from './controllers/reminder-controller';
+import { ensureAdmin, ensureAuthenticated, forwardAdmin, forwardAuthenticated } from './middleware/checkAuth';
 import passport from './middleware/passport';
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -27,18 +31,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /*
-app.use((req, res, next) => {
-  console.log(`User details are: `);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log('='.repeat(100));
+
+  console.log('User details are:');
   console.log(req.user);
+
+  console.log('Entire session object:');
+  console.log(req.session);
+
+  console.log('Session details are:');
+  console.log((req.session as any).passport);
+
+  console.log('Session ID is:');
+  console.log(req.sessionID);
+
+  console.log('='.repeat(100));
+
   next();
 });
 */
 
-import { ensureAuthenticated, forwardAuthenticated } from './middleware/checkAuth';
-import reminderController from './controllers/reminder-controller';
-import authController from './controllers/auth-controller';
-
-app.get('/dashboard', ensureAuthenticated, reminderController.dashboard);
+app.get('/admin', ensureAuthenticated, ensureAdmin, reminderController.admin);
+app.get('/admin/:id/revoke', ensureAuthenticated, ensureAdmin, reminderController.revoke);
+app.get('/dashboard', ensureAuthenticated, forwardAdmin, reminderController.dashboard);
 app.get('/reminders', ensureAuthenticated, reminderController.list);
 app.get('/reminder/new', ensureAuthenticated, reminderController.new);
 app.get('/reminder/:id', ensureAuthenticated, reminderController.listOne);

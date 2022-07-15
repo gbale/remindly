@@ -3,8 +3,35 @@ import { Reminder, reminderModel } from '../models/reminder-model';
 import { User } from '../models/user-model';
 
 export const remindersController = {
+  admin: (req: Request, res: Response) => {
+    let sessions = new Array();
+    for (const [key, value] of Object.entries((req.sessionStore as any).sessions)) {
+      sessions.push({
+        sessionId: key,
+        userId: JSON.parse(value as string).passport.user,
+      });
+    }
+    console.log(sessions);
+    res.render('reminder/admin', {
+      name: (req.user as User).name,
+      sessions,
+    });
+  },
+
+  revoke: (req: Request, res: Response) => {
+    const sessionId = req.params.id;
+    req.sessionStore.destroy(sessionId, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      res.redirect('/admin');
+    });
+  },
+
   dashboard: (req: Request, res: Response) => {
-    res.render('reminder/dashboard', { user: req.user });
+    res.render('reminder/dashboard', {
+      name: (req.user as User).name,
+    });
   },
 
   list: (req: Request, res: Response) => {

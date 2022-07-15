@@ -1,0 +1,14 @@
+<div class="container">
+  <h1 class="page-header">Admin Dashboard</h1>
+  <p>Welcome <%- name %></p>
+  <p>Current Active Sessions:</p>
+  <ul class="list-unstyled">
+    <% sessions.forEach(session=> { %>
+      <li class="m-3">
+        Session ID: <%- session.sessionId %><br />
+        User ID: <%- session.userId %><br />
+        <a href=<%= "/admin/" + session.sessionId + "/revoke" %>>Revoke Session</a>
+      </li>
+      <% }) %>
+  </ul>
+</div>
