@@ -4,10 +4,10 @@ import passportLocal from 'passport-local';
 import * as userController from '../controllers/user-controller';
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, (user as any).id);
 });
 
-passport.deserializeUser(({ id }, done) => {
+passport.deserializeUser((id: string, done) => {
   const user = userController.getUserById(id);
   if (user) {
     done(null, user);
