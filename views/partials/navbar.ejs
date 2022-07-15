@@ -1,17 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/reminders">Reminder List</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2 mb-lg-4">
+  <button class="navbar-toggler mr-3" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <ul class="navbar-nav mr-auto">
+
+  <a class="navbar-brand mr-auto mr-lg-3 order-2 order-lg-1" href="/reminders">Remindly</a>
+
+  <a class="btn btn-outline-primary ml-3 order-3" role="button" href="/logout">Log Out</a>
+
+  <div class="collapse navbar-collapse order-last order-lg-2" id="navbarNavAltMarkup">
+    <ul class="navbar-nav my-3 my-lg-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/reminders">Reminder List</a>
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/reminders">Reminders</a>
       </li>
       <li class="nav-item">
         <a class="nav-item nav-link" href="/reminder/new">Create</a>
       </li>
     </ul>
-    <a class="btn btn-outline-primary" role="button" href="/logout">Log Out</a>
   </div>
 </nav>

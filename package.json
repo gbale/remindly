@@ -25,11 +25,14 @@
     "mongoose": "^4.7.7",
     "nodemon": "^2.0.19",
     "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",
+    "@types/passport-github": "^1.1.7",
+    "@types/passport-local": "^1.0.34",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
   }

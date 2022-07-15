@@ -1,35 +1,39 @@
-let database = require("../database");
+let database = require('../database');
 
 /**
  * Looks up a reminder in the given database reminders array using the given reminder ID
- * @param {[]} database 
- * @param {number} id 
+ * @param {[]} database
+ * @param {number} id
  * @returns Object containing the reminder item and index if found, or null and -1 respectively
  */
 const findReminder = (userId, reminderId) => {
   const reminders = database[userId].reminders;
-  const index = reminders.findIndex(reminder => reminder.id == reminderId);
+  const index = reminders.findIndex((reminder) => reminder.id == reminderId);
   return {
     reminderItem: (index > -1) ? reminders[index] : null,
-    index
+    index,
   };
 };
 
 let remindersController = {
+  dashboard: (req, res) => {
+    res.render('reminder/dashboard', { name: req.user.name });
+  },
+
   list: (req, res) => {
-    res.render("reminder/index", { reminders: database[req.user.id].reminders });
+    res.render('reminder/index', { reminders: database[req.user.id].reminders });
   },
 
   new: (req, res) => {
-    res.render("reminder/create");
+    res.render('reminder/create');
   },
 
   listOne: (req, res) => {
     const { reminderItem } = findReminder(req.user.id, req.params.id);
     if (reminderItem) {
-      res.render("reminder/single-reminder", { reminderItem });
+      res.render('reminder/single-reminder', { reminderItem });
     } else {
-      res.render("reminder/index", { reminders: database[req.user.id].reminders });
+      res.render('reminder/index', { reminders: database[req.user.id].reminders });
     }
   },
 
@@ -41,12 +45,12 @@ let remindersController = {
       completed: false,
     };
     database[req.user.id].reminders.push(reminder);
-    res.redirect("/reminders");
+    res.redirect('/reminders');
   },
 
   edit: (req, res) => {
     const { reminderItem } = findReminder(req.user.id, req.params.id);
-    res.render("reminder/edit", { reminderItem });
+    res.render('reminder/edit', { reminderItem });
   },
 
   update: (req, res) => {
@@ -54,7 +58,7 @@ let remindersController = {
     if (reminderItem) {
       reminderItem.title = req.body.title;
       reminderItem.description = req.body.description;
-      reminderItem.completed = req.body.completed.toLowerCase() === 'true' ? true : false;
+      reminderItem.completed = (req.body.completed.toLowerCase() === 'true') ? true : false;
       database[req.user.id].reminders[index] = reminderItem;
       res.redirect('/reminders');
     }
@@ -64,7 +68,7 @@ let remindersController = {
     const { index } = findReminder(req.user.id, req.params.id);
     if (index > -1) {
       database[req.user.id].reminders.splice(index, 1);
-      res.redirect("/reminders");
+      res.redirect('/reminders');
     }
   },
 };

@@ -2,20 +2,30 @@ import { User, userModel } from '../models/user_model';
 
 const isUserValid = (user: User, password: string) => user.password === password;
 
-export const getUserByEmailIdAndPassword = (email: string, password: string) => {
-  const user = userModel.findByEmail(email);
-  if (user) {
-    if (isUserValid(user, password)) {
-      return user;
-    }
+export const getUserByGitHubIdOrCreate = (id: string, name: string) => {
+  try {
+    return userModel.findById(id);
+  } catch (err: any) {
+    return userModel.add(id, name);
   }
-  return null;
 };
 
-export const getUserById = (id: number) => {
-  const user = userModel.findById(id);
-  if (user) {
+export const getUserByEmailIdAndPassword = (email: string, password: string) => {
+  try {
+    const user = userModel.findByEmail(email);
+    if (!isUserValid(user, password)) {
+      throw new Error('Incorrect password for user: ' + email);
+    }
     return user;
+  } catch (err: any) {
+    console.error(err.toString());
   }
-  return null;
+};
+
+export const getUserById = (id: string) => {
+  try {
+    return userModel.findById(id);
+  } catch (err: any) {
+    console.error(err.toString());
+  }
 };

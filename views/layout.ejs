@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <% if (typeof isLogin === 'undefined') { %>
+    <% if (typeof hideNav === 'undefined' || hideNav === false) { %>
       <% include ./partials/navbar %>
     <% } %>
     <%- body %>

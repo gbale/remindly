@@ -1,9 +1,14 @@
 import { Request, Response } from 'express';
-const passport = require('../middleware/passport.js');
+import passport from '../middleware/passport';
+
+const options: passport.AuthenticateOptions = {
+  successRedirect: '/dashboard',
+  failureRedirect: '/login',
+};
 
 export const authController = {
   login: (req: Request, res: Response) => {
-    res.render('auth/login', { isLogin: true });
+    res.render('auth/login', { hideNav: true });
   },
 
   logout: (req: Request, res: Response) => {
@@ -19,11 +24,12 @@ export const authController = {
     res.render('auth/register');
   },
 
-  loginSubmit: (req: Request, res: Response) => {
-    passport.authenticate('local', {
-      successRedirect: '/reminders',
-      failureRedirect: '/login',
-    })(req, res);
+  loginLocal: (req: Request, res: Response) => {
+    passport.authenticate('local', options)(req, res);
+  },
+
+  loginGithub: (req: Request, res: Response) => {
+    passport.authenticate('github', options)(req, res);
   },
 
   registerSubmit: (req: Request, res: Response) => {
