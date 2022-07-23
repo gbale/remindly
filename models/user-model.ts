@@ -1,39 +1,25 @@
+import { User } from "@prisma/client";
+import { prisma } from "..";
+
 export enum Role {
   User = 1,
   Admin,
 }
 
-export interface User {
-  id: string;
-  role: Role;
-  name: string;
-  email?: string;
-  password?: string;
-}
-
-const database: [User] = [
-  {
-    id: '1',
-    role: Role.Admin,
-    name: 'Cindy Smith',
-    email: 'c@c.c',
-    password: 'c',
-  },
-];
-
 export const userModel = {
-  add: (user: User): User => {
-    return database[database.push(user) - 1];
+  add: async (data: User): Promise<User> => {
+    const user = await prisma.user.create({ data });
+    return user;
   },
-  findByEmail: (email: string): User => {
-    const user = database.find((user) => user.email === email);
+  findByEmail: async (email: string): Promise<User> => {
+    const user = await prisma.user.findFirst({ where: { email } });
     if (user) {
       return user;
     }
     throw new Error(`Couldn't find user with email: ${email}`);
   },
-  findById: (id: string): User => {
-    const user = database.find((user) => user.id === id);
+  findById: async (id: string): Promise<User> => {
+    const user = await prisma.user.findUnique({ where: { id } });
     if (user) {
       return user;
     }

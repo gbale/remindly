@@ -1,6 +1,6 @@
+import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Reminder, reminderModel } from '../models/reminder-model';
-import { User } from '../models/user-model';
 
 export const remindersController = {
   admin: (req: Request, res: Response) => {

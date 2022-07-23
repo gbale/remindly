@@ -8,8 +8,11 @@ import authController from './controllers/auth-controller';
 import reminderController from './controllers/reminder-controller';
 import { ensureAdmin, ensureAuthenticated, forwardAdmin, forwardAuthenticated } from './middleware/checkAuth';
 import passport from './middleware/passport';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
+
+export const prisma = new PrismaClient();
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));

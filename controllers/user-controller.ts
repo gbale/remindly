@@ -1,11 +1,10 @@
+import { User } from '@prisma/client';
 import { reminderModel } from '../models/reminder-model';
-import { Role, User, userModel } from '../models/user-model';
+import { Role, userModel } from '../models/user-model';
 
-const isUserValid = (user: User, password: string) => user.password === password;
-
-export const getUserByGitHubIdOrCreate = (id: string, name: string) => {
+export const getUserByGitHubIdOrCreate = async (id: string, name: string) => {
   try {
-    return userModel.findById(id);
+    return await userModel.findById(id);
   } catch (err: any) {
     console.log('Creating user: ' + id);
     reminderModel.init(id);
@@ -13,15 +12,19 @@ export const getUserByGitHubIdOrCreate = (id: string, name: string) => {
       id,
       role: Role.User,
       name,
+      email: '',
+      password: '',
+      created: new Date(Date.now()),
+      updated: new Date(Date.now()),
     };
-    return userModel.add(user);
+    return await userModel.add(user);
   }
 };
 
-export const getUserByEmailIdAndPassword = (email: string, password: string) => {
+export const getUserByEmailIdAndPassword = async (email: string, password: string) => {
   try {
-    const user = userModel.findByEmail(email);
-    if (!isUserValid(user, password)) {
+    const user = await userModel.findByEmail(email);
+    if (user.password !== password) {
       throw new Error('Incorrect password for user: ' + email);
     }
     return user;
@@ -30,9 +33,9 @@ export const getUserByEmailIdAndPassword = (email: string, password: string) => 
   }
 };
 
-export const getUserById = (id: string) => {
+export const getUserById = async (id: string) => {
   try {
-    return userModel.findById(id);
+    return await userModel.findById(id);
   } catch (err: any) {
     console.error(err);
   }

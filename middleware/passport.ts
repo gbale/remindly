@@ -1,15 +1,15 @@
+import { User } from '@prisma/client';
 import passport from 'passport';
 import passportGitHub from 'passport-github';
 import passportLocal from 'passport-local';
 import * as userController from '../controllers/user-controller';
-import { User } from '../models/user-model';
 
 passport.serializeUser((user, done) => {
   done(null, (user as User).id);
 });
 
-passport.deserializeUser((id: string, done) => {
-  const user = userController.getUserById(id);
+passport.deserializeUser(async (id: string, done) => {
+  const user = await userController.getUserById(id);
   if (user) {
     done(null, user);
   } else {
@@ -25,13 +25,13 @@ passport.use(
       usernameField: 'email',
       passwordField: 'password',
     },
-    (email: string, password: string, done) => {
-      const user = userController.getUserByEmailIdAndPassword(email, password);
+    async (email: string, password: string, done) => {
+      const user = await userController.getUserByEmailIdAndPassword(email, password);
       return user
         ? done(null, user)
         : done(null, false, {
-            message: 'Your login details are not valid. Please try again',
-          });
+          message: 'Your login details are not valid. Please try again',
+        });
     }
   )
 );
@@ -44,13 +44,13 @@ passport.use(
       clientID: String(process.env.GITHUB_CLIENT_ID),
       clientSecret: String(process.env.GITHUB_CLIENT_SECRET),
     },
-    (accessToken, refreshToken, profile, done) => {
-      const user = userController.getUserByGitHubIdOrCreate(profile.id, profile.displayName);
+    async (accessToken, refreshToken, profile, done) => {
+      const user = await userController.getUserByGitHubIdOrCreate(profile.id, profile.displayName);
       return user
         ? done(null, user)
         : done(null, false, {
-            message: 'Your login details are not valid, please try again',
-          });
+          message: 'Your login details are not valid, please try again',
+        });
     }
   )
 );
